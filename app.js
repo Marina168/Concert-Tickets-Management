@@ -67,13 +67,15 @@ app.get("/concerts", (req, res) => {
   //res.cookie('locuri', locuriRezervate);
   //let locuriRez=req.cookies["locuri"];
   //res.render('concerts',{'locuriRez':(locuriRez)? locuriRez:'locuri'});
-  res.cookie("locuriRezervate", locuriRezervate);
+  //res.cookie("locuriRezervate", locuriRezervate);
+  res.clearCookie("locurirezervate");
+  
   res.render("concerts");
 });
 
 app.get("/ticket", (req, res) => {
   res.clearCookie("locuriRezervate");
-  res.cookie("locuriRezervate", locuriRezervate);
+  //res.cookie("locuriRezervate", locuriRezervate);
   res.render("ticket");
 });
 app.get("/about", (req, res) => {
@@ -177,13 +179,23 @@ app.post("/ticket", (req, res) => {
         locuriRezervate += "," + result[i].loc_rezervat;
       }
       console.log("Locuri rezervate " + rezervat);
-      //locuriRezervate=rezervat;
       console.log("LocuriRezervateGlobal " + locuriRezervate);
-      // JSON.stringify(rezervat)
-      //res.cookie('locuri', locuriRezervate);
     }
   );
-  res.render("ticket");
+  //res.render("ticket");
+   res.cookie("locurirezervate", locuriRezervate);
+   locuriRezervate.length=0;
+   //res.clearCookie("locurirezervate");
+   res.redirect("/ticketsFromDB");
+
+});
+
+app.get("/ticketsFromDB", (req, res) => {
+  console.log(req.body);
+  let rezervat = req.cookies["locurirezervate"];
+  
+  res.render("ticket", { rezervat: rezervat});
+  //res.render("ticket");
 });
 app.post("/adauga-client", (req, res) => {
 
@@ -191,21 +203,14 @@ app.post("/adauga-client", (req, res) => {
 console.log(req.body["email"]);
 console.log(req.body["phonenumber"]);
 
+ // res.clearCookie("locurirezervate");
   res.clearCookie("email");
   res.clearCookie("phonenumber");
-  // console.log(locuriOcupate);
   var aux = JSON.stringify(req.body);
   console.log(aux)
   var x = JSON.parse(aux);
   console.log(aux)
 
-  /*fs.writeFile("inregistrari.json", aux, function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    console.log("S-a adaugat cu succes in fisier!");
-  });
-*/
   /*verificare email*/
   var sql2 = "select lastname from inregistrari where email=?;";
   con.query(sql2, [req.body["email"]], function (err, data) {

@@ -47,21 +47,21 @@ function f(z) {
       loc_ocupat_total++;
     }
   } //selectare locuri
-  //preconditie: loc_ocupat=0, loc_ocupat_total=z.length, loc_ocupat<loc_acupat_total,
+  // preconditie: loc_ocupat=0, loc_ocupat_total=z.length, loc_ocupat<loc_acupat_total,
   // pentru fiecare loc p ce nu apartine lui z p.dataset.rezervat=0;
-  //postconditie:loc_ocupat=numarul de locuri selectate de user (p.dataset.rezervat=1), unde p.data.rezervat!=p.data.ticketDB,
-  //loc_ocupat_total=z.length + loc_ocupat ,  pentru fiecare loc p selectat de user  p.dataset.rezervat=1;
-  //invariantul: loc_ocupat
-  //pas 1 :loc_ocupat=0; p.data.rezervat=0; oricare ar fi p.data.rezervat!=p.data.ticketDB
-  //pp ca userul selecteaza k locuri, unde p.data.ticketDB==0 && p.data.rezervat=0 , pentru orice p din cele k locuri selectate
-  //pas k:p.data.rezervat=1,pentru orice p din cele k locuri selectate, loc_ocupat[k]=k,  loc_ocupat_total=z.length +k; pentru orice p,
+  // postconditie:loc_ocupat=numarul de locuri selectate de user (p.dataset.rezervat=1), unde p.data.rezervat!=p.data.ticketDB,
+  // loc_ocupat_total=z.length + loc_ocupat ,  pentru fiecare loc p selectat de user  p.dataset.rezervat=1;
+  // invariantul: loc_ocupat
+  // pas 1 :loc_ocupat=0; p.data.rezervat=0; oricare ar fi p.data.rezervat!=p.data.ticketDB
+  // pp ca userul selecteaza k locuri, unde p.data.ticketDB==0 && p.data.rezervat=0 , pentru orice p din cele k locuri selectate
+  // pas k:p.data.rezervat=1,pentru orice p din cele k locuri selectate, loc_ocupat[k]=k,  loc_ocupat_total=z.length +k; pentru orice p,
   // k<total_locuri_sala-loc_ocupat_total
-  //pas k+1: pp ca userul deselecteaza j locuri  din cele k selectate, p.data.rezervat=0, pentru oricare p din cele j locuri
+  // pas k+1: pp ca userul deselecteaza j locuri  din cele k selectate, p.data.rezervat=0, pentru oricare p din cele j locuri
   // loc_ocupat[k+1]=loc_ocupat[k]-j,  loc_ocupat_total-=j , j<k;
-  //finitudine: ciclu 1 :fct descrescatoare tatal_locuri_sala +1-i
-  //caz favorabil:  daca userul doar selecteaza locurile => O(n);
-  //caz nefavorabil: daca userul selecteaza locurile, dar se razgandeste si apoi le deselecteaza =>O(n^2)
-  //Observatie: complexitatea se calculeaza in functie nr de apeluri a functiei  p.addEventListener('click') pentru selectarea/deselectarea locurilor din interfata
+  // finitudine: ciclu 1 :fct descrescatoare tatal_locuri_sala +1-i
+  // caz favorabil:  daca userul doar selecteaza locurile => O(n);
+  // caz nefavorabil: daca userul selecteaza locurile, dar se razgandeste si apoi le deselecteaza =>O(n^2)
+  // Observatie: complexitatea se calculeaza in functie nr de apeluri a functiei  p.addEventListener('click') pentru selectarea/deselectarea locurilor din interfata
 
   for (i = 0; i <= total_locuri_sala; i++) {
     p = y[i];
@@ -69,9 +69,8 @@ function f(z) {
     prelucrare_loc(p, i);
     p.addEventListener("click", function () {
       if (this.dataset.rezervat == 1 && this.dataset.ticketdb == 0) {
-        // alert(rez);
-        loc_ocupat--; //selected
-        loc_ocupat_total--; //total reserved
+        loc_ocupat--; 
+        loc_ocupat_total--;
         this.dataset.rezervat = 0;
         let rez = 1;
         prelucrare_loc(this, i);

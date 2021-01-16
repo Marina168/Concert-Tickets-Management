@@ -1,15 +1,40 @@
 
-
 <script>
+  function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+</script>
+<script type="text/javascript">
   function locuri()
   {
-    z =[2, 10, 200, 20, 44, 88, 3, 9]
+   
+    //var rezervat = JSON.parse('<%- rezervat %>')
+    var rezervat='<%- JSON.stringify(rezervat) %>'
+    alert(JSON.parse(rezervat))
+    //for(let i)
+    z =[2,3,4,24,17,19,25,29]
     //alert(z);
     f(z)
   }
 </script>
 
 <body onload="locuri()">
+  <% if(rezervat!=''){%>
+    <h3 style="color:red"><%=rezervat %></h3>
+    <% } 
+  
+  %>
   <ul class="navigation">
 
 
@@ -434,7 +459,7 @@
       <div class="center">
         <h2 class="mesaj">Reserved: <span id="mesajlocuri"></span></h3>
         </div><br>
-      <a href="/concerts"><button class="button button4">Back</button></a>
+      <a href="/concerts"><button class="button button4" id="back">Back</button></a>
       <a style="float:right" href="/login"><button class="button button4" onclick="reserved()">Reserve</button></a>
      
 
@@ -458,7 +483,7 @@
             <a href="#">Contact</a>
           </p>
 
-          <p class="footer-company-name">Gabriela-PW &copy; 2020</p>
+          <p class="footer-company-name">Gabriela-PW &copy; 2021</p>
         </div>
 
         <div class="footer-center">
