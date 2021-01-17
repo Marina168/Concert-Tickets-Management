@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const LocalStorage = require("node-localstorage").LocalStorage;
 const localStorage = require("localStorage");
 var cookieParser = require("cookie-parser");
+const axios = require('axios')
+
 
 var locuriRezervate = "";
 
@@ -121,7 +123,8 @@ app.get("/login", (req, res) => {
 });
 app.post("/login", (req, res) => {
   console.log(req.body["email"]);
-  //cookies
+  
+
   res.clearCookie("email");
   res.clearCookie("password");
 
@@ -143,11 +146,48 @@ app.post("/login", (req, res) => {
     console.log(result1);
     if (result1.length > 0) {
       res.cookie("email", req.body["email"]);
-      var sql2 = "select lastname from inregistrari where password=? ;";
+      var sql2 = "select lastname,firstname from inregistrari where password=? ;";
       con.query(sql2, [req.body["password"]], function (err, result2) {
         if (result2.length > 0) {
           console.log("OK");
+          console.log(result2[0].lastname+" "+result2[0].firstname);
+          var concert=req.body["name"];
+          console.log(concert)
+          var loc=req.body["places"];
+          console.log(loc)
           res.cookie("password", req.body["password"]);
+          const params = JSON.stringify({
+            "email":req.body["email"],
+            "name":result2[0].lastname+" "+result2[0].firstname,
+            "date":"21/01/2021",
+            "hour":"21:00 PM",
+            "concert":concert,
+            "locuri":loc
+        });
+        axios.post('http://192.168.0.100:4030/api/notification/reservation', params, {
+        
+            "headers": {
+        
+                "content-type": "application/json",
+        
+            },
+        
+        })
+        .then(function (response) {
+        
+                console.log("The email was sent successfully !");
+        
+        })
+        
+        .catch(function (error) {
+        
+           console.log("The email was not sent !");
+        
+        });
+        console.log("dupa send email")
+
+        console.log(params)
+        console.log("inainte de send email")
           res.render("index");
         } else {
           console.log("Eroare!Nu se gaseste parola!");
@@ -164,9 +204,11 @@ app.post("/login", (req, res) => {
     }
   });
 });
+var concert="";
 app.post("/ticket", (req, res) => {
   //res.clearCookie("locuri");
   console.log("heeeeiii" + req.body.concertName);
+  concert =req.body.concertName;
   var rezervat = [];
   con.query(
     "SELECT loc_rezervat FROM concert where name =?;",

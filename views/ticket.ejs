@@ -18,23 +18,13 @@
 <script type="text/javascript">
   function locuri()
   {
-   
-    //var rezervat = JSON.parse('<%- rezervat %>')
-    var rezervat='<%- JSON.stringify(rezervat) %>'
-    alert(JSON.parse(rezervat))
-    //for(let i)
     z =[2,3,4,24,17,19,25,29]
-    //alert(z);
+
     f(z)
   }
 </script>
 
 <body onload="locuri()">
-  <% if(rezervat!=''){%>
-    <h3 style="color:red"><%=rezervat %></h3>
-    <% } 
-  
-  %>
   <ul class="navigation">
 
 
@@ -443,9 +433,9 @@
      var locuri= document.getElementById("mesajlocuri").innerHTML;
      console.log();
       localStorage.setItem("locuri", locuri);
-      alert("data added in localstorage " +locuri);
+      //alert("data added in localstorage " +locuri);
     } else {
-      alert("local storage not supported");
+      //alert("local storage not supported");
     }
   }
   </script>
